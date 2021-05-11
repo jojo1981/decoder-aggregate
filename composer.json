@@ -1,0 +1,50 @@
+{
+  "name": "jojo1981/decoder-aggregate",
+  "description": "Decoder aggregate library",
+  "keywords": [
+    "decorder",
+    "encoder",
+    "decode",
+    "encode",
+    "aggregate"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "readme": "README.md",
+  "authors": [
+    {
+      "name": "Joost Nijhuis",
+      "email": "jnijhuis81@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": "^7.4|^8.0",
+    "ext-json": "*",
+    "symfony/yaml": "^5.2"
+  },
+  "require-dev": {
+    "php-coveralls/php-coveralls": "^2.2",
+    "phpunit/phpunit": "^7.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jojo1981\\DecoderAggregate\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jojo1981\\DecoderAggregate\\TestSuite\\": "tests/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin/",
+    "sort-packages": true
+  },
+  "scripts": {
+    "test": [
+      "./bin/phpunit"
+    ]
+  }
+}
