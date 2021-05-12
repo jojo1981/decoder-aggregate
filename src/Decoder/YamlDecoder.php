@@ -19,15 +19,26 @@ use Throwable;
  */
 final class YamlDecoder implements DecoderInterface
 {
+    /** @var int */
+    private int $flags;
+
+    /**
+     * @param int $flags
+     */
+    public function __construct(int $flags = 0)
+    {
+        $this->flags = $flags;
+    }
+
     /**
      * @param string $encodedString
      * @param array $options
-     * @return array
+     * @return mixed
      * @throws YamlDecodeException
      */
-    public function decode(string $encodedString, array $options = []): array
+    public function decode(string $encodedString, array $options = [])
     {
-        $options['flags'] = $options['flags'] ?? 0;
+        $options['flags'] = $options['flags'] ?? $this->flags;
 
         try {
             return Yaml::parse($encodedString, $options['flags']);

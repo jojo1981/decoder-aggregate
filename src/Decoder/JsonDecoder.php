@@ -27,17 +27,39 @@ if (!defined('JSON_THROW_ON_ERROR')) {
  */
 final class JsonDecoder implements DecoderInterface
 {
+    /** @var bool */
+    private bool $associative;
+
+    /** @var int */
+    private int $depth;
+
+    /** @var int */
+    private int $flags;
+
+    /**
+     * @param bool $associative
+     * @param int $depth
+     * @param int $flags
+     */
+    public function __construct(bool $associative = false, int $depth = 512, int $flags = 0)
+    {
+        $this->associative = $associative;
+        $this->depth = $depth;
+        $this->flags = $flags;
+    }
+
     /**
      * @param string $encodedString
      * @param array $options
-     * @return array
+     * @return mixed
      * @throws JsonDecodeException
      */
-    public function decode(string $encodedString, array $options = []): array
+    public function decode(string $encodedString, array $options = [])
     {
-        $options['associative'] = $options['associative'] ?? false;
-        $options['depth'] = $options['depth'] ?? 512;
-        $options['flags'] = $options['flags'] ?? JSON_THROW_ON_ERROR;
+        $options['associative'] = $options['associative'] ?? $this->associative;
+        $options['depth'] = $options['depth'] ?? $this->depth;
+        $options['flags'] = $options['flags'] ?? $this->flags;
+
         if (JSON_THROW_ON_ERROR === ($options['flags'] & JSON_THROW_ON_ERROR)) {
             $options['flags'] -= JSON_THROW_ON_ERROR;
         }

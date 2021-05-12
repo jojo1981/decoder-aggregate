@@ -19,6 +19,27 @@ use Throwable;
  */
 final class YamlEncoder implements EncoderInterface
 {
+    /** @var int */
+    private int $inline;
+
+    /** @var int */
+    private int $indent;
+
+    /** @var int */
+    private int $flags;
+
+    /**
+     * @param int $inline
+     * @param int $indent
+     * @param int $flags
+     */
+    public function __construct(int $inline = 2, int $indent = 4, int $flags = 0)
+    {
+        $this->inline = $inline;
+        $this->indent = $indent;
+        $this->flags = $flags;
+    }
+
     /**
      * @param mixed $data
      * @param array $options
@@ -27,9 +48,9 @@ final class YamlEncoder implements EncoderInterface
      */
     public function encode($data, array $options = []): string
     {
-        $options['inline'] = $options['inline'] ?? 2;
-        $options['indent'] = $options['indent'] ?? 4;
-        $options['flags'] = $options['flags'] ?? 0;
+        $options['inline'] = $options['inline'] ?? $this->inline;
+        $options['indent'] = $options['indent'] ?? $this->indent;
+        $options['flags'] = $options['flags'] ?? $this->flags;
 
         try {
             return Yaml::dump($data, $options['inline'], $options['indent'], $options['flags']);

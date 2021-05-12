@@ -19,8 +19,8 @@ interface DecoderInterface
     /**
      * @param string $encodedString
      * @param array $options
-     * @return array
+     * @return mixed
      * @throws DecoderException
      */
-    public function decode(string $encodedString, array $options = []): array;
+    public function decode(string $encodedString, array $options = []);
 }
