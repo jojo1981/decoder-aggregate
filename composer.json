@@ -22,7 +22,7 @@
   "require": {
     "php": "^7.4|^8.0",
     "ext-json": "*",
-    "symfony/yaml": "^5.2"
+    "symfony/yaml": "^4.0|^5.2"
   },
   "require-dev": {
     "php-coveralls/php-coveralls": "^2.2",
