@@ -27,8 +27,8 @@ use Jojo1981\DecoderAggregate\Registry\EncodeDecoderRegistry;
  */
 final class EncoderDecoderProviderFactory
 {
-    /** @var EncodeDecoderRegistryInterface */
-    private EncodeDecoderRegistryInterface $encodeDecoderRegistry;
+    /** @var EncodeDecoderRegistryInterface|null */
+    private ?EncodeDecoderRegistryInterface $encodeDecoderRegistry = null;
 
     /** @var EncoderDecoderProviderInterface|null */
     private ?EncoderDecoderProviderInterface $encoderDecoderProvider = null;
@@ -36,54 +36,38 @@ final class EncoderDecoderProviderFactory
     /** @var bool */
     private bool $frozen = false;
 
-    /**
-     * @param EncodeDecoderRegistryInterface|null $encodeDecoderRegistry
-     */
-    public function __construct(?EncodeDecoderRegistryInterface $encodeDecoderRegistry = null)
-    {
-        $this->encodeDecoderRegistry = $encodeDecoderRegistry ?? new EncodeDecoderRegistry();
-    }
+    /** @var EncoderInterface[] */
+    private array $encoders = [];
+
+    /** @var DecoderInterface[] */
+    private array $decoders = [];
 
     /**
      * @return void
      * @throws EncoderDecoderProviderFactoryException
-     * @throws EncodeDecoderRegistryException
      */
     public function addDefaultEncoders(): void
     {
         $this->assertFrozen(__METHOD__);
 
         $yamlEncoder = new YamlEncoder();
-        if (!$this->encodeDecoderRegistry->hasEncoder('json')) {
-            $this->encodeDecoderRegistry->registerEncoder('json', new JsonEncoder());
-        }
-        if (!$this->encodeDecoderRegistry->hasEncoder('yaml')) {
-            $this->encodeDecoderRegistry->registerEncoder('yaml', $yamlEncoder);
-        }
-        if (!$this->encodeDecoderRegistry->hasEncoder('yml')) {
-            $this->encodeDecoderRegistry->registerEncoder('yml', $yamlEncoder);
-        }
+        $this->encoders['json'] = new JsonEncoder();
+        $this->encoders['yaml'] = $yamlEncoder;
+        $this->encoders['yml'] = $yamlEncoder;
     }
 
     /**
      * @return void
      * @throws EncoderDecoderProviderFactoryException
-     * @throws EncodeDecoderRegistryException
      */
     public function addDefaultDecoders(): void
     {
         $this->assertFrozen(__METHOD__);
 
         $yamlDecoder = new YamlDecoder();
-        if (!$this->encodeDecoderRegistry->hasDecoder('json')) {
-            $this->encodeDecoderRegistry->registerDecoder('json', new JsonDecoder());
-        }
-        if (!$this->encodeDecoderRegistry->hasDecoder('yaml')) {
-            $this->encodeDecoderRegistry->registerDecoder('yaml', $yamlDecoder);
-        }
-        if (!$this->encodeDecoderRegistry->hasDecoder('yml')) {
-            $this->encodeDecoderRegistry->registerDecoder('yml', $yamlDecoder);
-        }
+        $this->decoders['json'] = new JsonDecoder();
+        $this->decoders['yaml'] = $yamlDecoder;
+        $this->decoders['yml'] = $yamlDecoder;
     }
 
     /**
@@ -91,12 +75,11 @@ final class EncoderDecoderProviderFactory
      * @param EncoderInterface $encoder
      * @return void
      * @throws EncoderDecoderProviderFactoryException
-     * @throws EncodeDecoderRegistryException
      */
     public function addEncoder(string $format, EncoderInterface $encoder): void
     {
         $this->assertFrozen(__METHOD__);
-        $this->encodeDecoderRegistry->registerEncoder($format, $encoder);
+        $this->encoders[$format] = $encoder;
     }
 
     /**
@@ -104,25 +87,44 @@ final class EncoderDecoderProviderFactory
      * @param DecoderInterface $decoder
      * @return void
      * @throws EncoderDecoderProviderFactoryException
-     * @throws EncodeDecoderRegistryException
      */
     public function addDecoder(string $format, DecoderInterface $decoder): void
     {
         $this->assertFrozen(__METHOD__);
-        $this->encodeDecoderRegistry->registerDecoder($format, $decoder);
+        $this->decoders[$format] = $decoder;
     }
 
     /**
      * @return EncoderDecoderProviderInterface
+     * @throws EncodeDecoderRegistryException
      */
     public function getEncoderDecoderProvider(): EncoderDecoderProviderInterface
     {
         if (null === $this->encoderDecoderProvider) {
-            $this->encoderDecoderProvider = new EncoderDecoderProvider($this->encodeDecoderRegistry);
             $this->frozen = true;
+            $this->encoderDecoderProvider = new EncoderDecoderProvider($this->getEncodeDecoderRegistry());
         }
 
         return $this->encoderDecoderProvider;
+    }
+
+    /**
+     * @return EncodeDecoderRegistryInterface
+     * @throws EncodeDecoderRegistryException
+     */
+    private function getEncodeDecoderRegistry(): EncodeDecoderRegistryInterface
+    {
+        if (null === $this->encodeDecoderRegistry) {
+            $this->encodeDecoderRegistry = new EncodeDecoderRegistry();
+            foreach ($this->encoders as $format => $encoder) {
+                $this->encodeDecoderRegistry->registerEncoder($format, $encoder);
+            }
+            foreach ($this->decoders as $format => $decoder) {
+                $this->encodeDecoderRegistry->registerDecoder($format, $decoder);
+            }
+        }
+
+        return $this->encodeDecoderRegistry;
     }
 
     /**
