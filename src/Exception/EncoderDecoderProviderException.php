@@ -25,7 +25,7 @@ final class EncoderDecoderProviderException extends DomainException
      */
     public static function couldNotGetEncoderForFormat(string $format, ?Throwable $previousException): EncoderDecoderProviderException
     {
-        return new self(sprintf('Could  not get a encoder for format: `%s`.', $format), 0, $previousException);
+        return new self(sprintf('Could not get a encoder for format: `%s`.', $format), 0, $previousException);
     }
 
     /**
@@ -35,6 +35,6 @@ final class EncoderDecoderProviderException extends DomainException
      */
     public static function couldNotGetDecoderForFormat(string $format, ?Throwable $previousException): EncoderDecoderProviderException
     {
-        return new self(sprintf('Could  not get a decoder for for format: `%s`.', $format), 0, $previousException);
+        return new self(sprintf('Could not get a decoder for for format: `%s`.', $format), 0, $previousException);
     }
 }
