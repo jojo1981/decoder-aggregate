@@ -40,7 +40,7 @@ final class YamlDecoderTest extends TestCase
         $parseException = new ParseException('Reference "*[]a" does not exist.', 1, '**[]a:');
         $this->expectExceptionObject(new YamlDecodeException('Could not decode yaml string', 0, $parseException));
         try {
-            (new YamlDecoder())->decode('- **[]a:');
+            (new YamlDecoder(Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE))->decode('- **[]a:');
         } catch (Throwable $thrownException) {
             self::assertEquals($parseException, $thrownException->getPrevious());
             throw $thrownException;
