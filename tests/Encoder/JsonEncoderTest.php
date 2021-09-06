@@ -11,16 +11,38 @@ namespace Jojo1981\DecoderAggregate\TestSuite\Encoder;
 
 use Jojo1981\DecoderAggregate\Encoder\JsonEncoder;
 use Jojo1981\DecoderAggregate\Exception\JsonEncoderException;
+use JsonException;
+use PHPUnit\Framework\Exception as PhpUnitFrameworkException;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use stdClass;
+use Throwable;
 
 /**
  * @package Jojo1981\DecoderAggregate\TestSuite\Encoder
  */
 final class JsonEncoderTest extends TestCase
 {
+    /**
+     * @return void
+     * @throws InvalidArgumentException
+     * @throws JsonEncoderException
+     * @throws PhpUnitFrameworkException
+     * @throws ExpectationFailedException
+     */
+    public function testEncodeWithInvalidDataShouldThrowJsonEncoderException(): void
+    {
+        $previousException = new JsonException('Malformed UTF-8 characters, possibly incorrectly encoded', 5);
+        $this->expectExceptionObject(new JsonEncoderException('Could not encode data into a json string', 0, $previousException));
+        try {
+            (new JsonEncoder())->encode("\xB1\x31");
+        } catch (Throwable $thrownException) {
+            self::assertEquals($previousException, $thrownException->getPrevious());
+            throw $thrownException;
+        }
+    }
+
     /**
      * @dataProvider getTestData
      *
