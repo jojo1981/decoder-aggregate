@@ -40,8 +40,12 @@ final class YamlDecoder implements DecoderInterface
     {
         $options['flags'] = $options['flags'] ?? $this->flags;
 
+        if (Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE & $options['flags']) {
+            $options['flags'] -= Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE;
+        }
+
         try {
-            return Yaml::parse($encodedString, $options['flags']);
+            return Yaml::parse($encodedString, $options['flags'] + Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
         } catch (Throwable $exception) {
             throw new YamlDecodeException('Could not decode yaml string', 0, $exception);
         }
