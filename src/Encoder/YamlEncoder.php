@@ -52,8 +52,12 @@ final class YamlEncoder implements EncoderInterface
         $options['indent'] = $options['indent'] ?? $this->indent;
         $options['flags'] = $options['flags'] ?? $this->flags;
 
+        if ($options['flags'] & Yaml::DUMP_EXCEPTION_ON_INVALID_TYPE) {
+            $options['flags'] -= Yaml::DUMP_EXCEPTION_ON_INVALID_TYPE;
+        }
+
         try {
-            return Yaml::dump($data, $options['inline'], $options['indent'], $options['flags']);
+            return Yaml::dump($data, $options['inline'], $options['indent'], $options['flags'] + Yaml::DUMP_EXCEPTION_ON_INVALID_TYPE);
         } catch (Throwable $exception) {
             throw new YamlEncoderException('Could not encode data into a yaml string', 0, $exception);
         }
