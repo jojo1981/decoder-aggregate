@@ -36,7 +36,7 @@ final class JsonEncoderTest extends TestCase
         $previousException = new JsonException('Malformed UTF-8 characters, possibly incorrectly encoded', 5);
         $this->expectExceptionObject(new JsonEncoderException('Could not encode data into a json string', 0, $previousException));
         try {
-            (new JsonEncoder())->encode("\xB1\x31");
+            (new JsonEncoder(JSON_THROW_ON_ERROR))->encode("\xB1\x31");
         } catch (Throwable $thrownException) {
             self::assertEquals($previousException, $thrownException->getPrevious());
             throw $thrownException;
