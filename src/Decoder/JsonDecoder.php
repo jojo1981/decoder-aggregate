@@ -12,13 +12,7 @@ namespace Jojo1981\DecoderAggregate\Decoder;
 use Jojo1981\DecoderAggregate\DecoderInterface;
 use Jojo1981\DecoderAggregate\Exception\JsonDecodeException;
 use Throwable;
-use function define;
-use function defined;
 use function json_decode;
-
-if (!defined('JSON_THROW_ON_ERROR')) {
-    define('JSON_THROW_ON_ERROR', 4194304);
-}
 
 /**
  * @package Jojo1981\DecoderAggregate\Decoder
