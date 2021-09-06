@@ -60,7 +60,7 @@ final class JsonDecoder implements DecoderInterface
         $options['depth'] = $options['depth'] ?? $this->depth;
         $options['flags'] = $options['flags'] ?? $this->flags;
 
-        if (JSON_THROW_ON_ERROR === ($options['flags'] & JSON_THROW_ON_ERROR)) {
+        if ($options['flags'] & JSON_THROW_ON_ERROR) {
             $options['flags'] -= JSON_THROW_ON_ERROR;
         }
 
