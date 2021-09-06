@@ -12,14 +12,7 @@ namespace Jojo1981\DecoderAggregate\Encoder;
 use Jojo1981\DecoderAggregate\EncoderInterface;
 use Jojo1981\DecoderAggregate\Exception\JsonEncoderException;
 use Throwable;
-use function defined;
 use function json_encode;
-use function json_last_error;
-use function json_last_error_msg;
-
-if (!defined('JSON_THROW_ON_ERROR')) {
-    define('JSON_THROW_ON_ERROR', 4194304);
-}
 
 /**
  * @package Jojo1981\DecoderAggregate\Encoder
@@ -60,10 +53,6 @@ final class JsonEncoder implements EncoderInterface
             $result = json_encode($data, $options['flags'] + JSON_THROW_ON_ERROR, $options['depth']);
         } catch (Throwable $exception) {
             throw new JsonEncoderException('Could not encode data into a json string', 0, $exception);
-        }
-
-        if ((false === $result) && 0 !== ($lastError = json_last_error())) {
-            throw new JsonEncoderException(json_last_error_msg(), $lastError);
         }
 
         return $result;
