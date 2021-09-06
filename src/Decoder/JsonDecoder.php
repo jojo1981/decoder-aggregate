@@ -15,8 +15,6 @@ use Throwable;
 use function define;
 use function defined;
 use function json_decode;
-use function json_last_error;
-use function json_last_error_msg;
 
 if (!defined('JSON_THROW_ON_ERROR')) {
     define('JSON_THROW_ON_ERROR', 4194304);
@@ -68,10 +66,6 @@ final class JsonDecoder implements DecoderInterface
             $result = json_decode($encodedString, $options['associative'], $options['depth'], $options['flags'] + JSON_THROW_ON_ERROR);
         } catch (Throwable $exception) {
             throw new JsonDecodeException('Could not decode json string', 0, $exception);
-        }
-
-        if (0 !== $lastError = json_last_error()) {
-            throw new JsonDecodeException(json_last_error_msg(), $lastError);
         }
 
         return $result;
