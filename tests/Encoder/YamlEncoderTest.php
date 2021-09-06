@@ -15,13 +15,34 @@ use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use stdClass;
+use Symfony\Component\Yaml\Exception\DumpException;
 use Symfony\Component\Yaml\Yaml;
+use Throwable;
+use function fopen;
 
 /**
  * @package Jojo1981\DecoderAggregate\TestSuite\Encoder
  */
 final class YamlEncoderTest extends TestCase
 {
+    /**
+     * @return void
+     * @throws InvalidArgumentException
+     * @throws YamlEncoderException
+     * @throws ExpectationFailedException
+     */
+    public function testEncodeWithInvalidDataShouldThrowYamlEncoderException(): void
+    {
+        $previousException = new DumpException('Unable to dump PHP resources in a YAML file ("stream").');
+        $this->expectExceptionObject(new YamlEncoderException('Could not encode data into a yaml string', 0, $previousException));
+        try {
+            (new YamlEncoder(2, 4, Yaml::DUMP_EXCEPTION_ON_INVALID_TYPE))->encode(fopen(__FILE__, 'rb'));
+        } catch (Throwable $thrownException) {
+            self::assertEquals($previousException, $thrownException->getPrevious());
+            throw $thrownException;
+        }
+    }
+
     /**
      * @dataProvider getTestData
      *
