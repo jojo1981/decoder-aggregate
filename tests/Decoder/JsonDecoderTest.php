@@ -34,7 +34,7 @@ final class JsonDecoderTest extends TestCase
         $jsonException = new JsonException('Syntax error', 4);
         $this->expectExceptionObject(new JsonDecodeException('Could not decode json string', 0, $jsonException));
         try {
-            (new JsonDecoder())->decode('a');
+            (new JsonDecoder(false, 512, JSON_THROW_ON_ERROR))->decode('a');
         } catch (Throwable $thrownException) {
             self::assertEquals($jsonException, $thrownException->getPrevious());
             throw $thrownException;
