@@ -1,6 +1,12 @@
 Decoder aggregate library
 =====================
 
+[![Build Status](https://travis-ci.com/jojo1981/decoder-aggregate.svg?branch=master)](https://travis-ci.com/jojo1981/decoder-aggregate)
+[![Coverage Status](https://coveralls.io/repos/github/jojo1981/decoder-aggregate/badge.svg)](https://coveralls.io/github/jojo1981/decoder-aggregate)
+[![Latest Stable Version](https://poser.pugx.org/jojo1981/decoder-aggregate/v/stable)](https://packagist.org/packages/jojo1981/decoder-aggregate)
+[![Total Downloads](https://poser.pugx.org/jojo1981/decoder-aggregate/downloads)](https://packagist.org/packages/jojo1981/decoder-aggregate)
+[![License](https://poser.pugx.org/jojo1981/decoder-aggregate/license)](https://packagist.org/packages/jojo1981/decoder-aggregate)
+
 Author: Joost Nijhuis <[jnijhuis81@gmail.com](mailto:jnijhuis81@gmail.com)>
 
 This library will provide a decoder/encoder provider including some default encoders/decoders for `json` and `yaml`.
