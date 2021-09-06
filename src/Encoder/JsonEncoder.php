@@ -52,7 +52,7 @@ final class JsonEncoder implements EncoderInterface
     {
         $options['flags'] = $options['flags'] ?? $this->flags;
         $options['depth'] = $options['depth'] ?? $this->depth;
-        if (JSON_THROW_ON_ERROR === ($options['flags'] & JSON_THROW_ON_ERROR)) {
+        if ($options['flags'] & JSON_THROW_ON_ERROR) {
             $options['flags'] -= JSON_THROW_ON_ERROR;
         }
 
