@@ -148,6 +148,38 @@ final class EncoderDecoderProviderFactoryTest extends TestCase
     }
 
     /**
+     * @return void
+     * @throws DoubleException
+     * @throws EncodeDecoderRegistryException
+     * @throws EncoderDecoderProviderException
+     * @throws EncoderDecoderProviderFactoryException
+     * @throws ExpectationFailedException
+     * @throws InterfaceNotFoundException
+     * @throws InvalidArgumentException
+     * @throws ObjectProphecyException
+     * @throws PhpUnitFrameworkException
+     */
+    public function testGetEncoderDecoderProviderShouldReturnEncoderDecoderProviderWhichHasAllDefaultEncoderAndDecodersAndCustomOverwrites(): void
+    {
+        /** @var DecoderInterface $jsonDecoder */
+        $jsonDecoder = $this->prophesize(DecoderInterface::class)->reveal();
+        /** @var DecoderInterface $jsonEncoder */
+        $jsonEncoder = $this->prophesize(EncoderInterface::class)->reveal();
+
+        $this->getEncoderDecoderProviderFactory()->addDecoder('json', $jsonDecoder);
+        $this->getEncoderDecoderProviderFactory()->addDefaultEncoders();
+        $this->getEncoderDecoderProviderFactory()->addDefaultDecoders();
+        $this->getEncoderDecoderProviderFactory()->addEncoder('json', $jsonEncoder);
+
+        self::assertSame($jsonEncoder, $this->getEncoderDecoderProviderFactory()->getEncoderDecoderProvider()->getEncoder('json'));
+        self::assertInstanceOf(YamlEncoder::class, $this->getEncoderDecoderProviderFactory()->getEncoderDecoderProvider()->getEncoder('yaml'));
+        self::assertInstanceOf(YamlEncoder::class, $this->getEncoderDecoderProviderFactory()->getEncoderDecoderProvider()->getEncoder('yml'));
+        self::assertSame($jsonDecoder, $this->getEncoderDecoderProviderFactory()->getEncoderDecoderProvider()->getDecoder('json'));
+        self::assertInstanceOf(YamlDecoder::class, $this->getEncoderDecoderProviderFactory()->getEncoderDecoderProvider()->getDecoder('yaml'));
+        self::assertInstanceOf(YamlDecoder::class, $this->getEncoderDecoderProviderFactory()->getEncoderDecoderProvider()->getDecoder('yml'));
+    }
+
+    /**
      * @return EncoderDecoderProviderFactory
      */
     private function getEncoderDecoderProviderFactory(): EncoderDecoderProviderFactory

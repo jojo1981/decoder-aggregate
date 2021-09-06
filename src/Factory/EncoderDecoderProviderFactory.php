@@ -21,6 +21,7 @@ use Jojo1981\DecoderAggregate\Exception\EncodeDecoderRegistryException;
 use Jojo1981\DecoderAggregate\Exception\EncoderDecoderProviderFactoryException;
 use Jojo1981\DecoderAggregate\Provider\EncoderDecoderProvider;
 use Jojo1981\DecoderAggregate\Registry\EncodeDecoderRegistry;
+use function array_key_exists;
 
 /**
  * @package Jojo1981\DecoderAggregate\Factory
@@ -51,9 +52,15 @@ final class EncoderDecoderProviderFactory
         $this->assertFrozen(__METHOD__);
 
         $yamlEncoder = new YamlEncoder();
-        $this->encoders['json'] = new JsonEncoder();
-        $this->encoders['yaml'] = $yamlEncoder;
-        $this->encoders['yml'] = $yamlEncoder;
+        if (!array_key_exists('json', $this->encoders)) {
+            $this->encoders['json'] = new JsonEncoder();
+        }
+        if (!array_key_exists('yaml', $this->encoders)) {
+            $this->encoders['yaml'] = $yamlEncoder;
+        }
+        if (!array_key_exists('yml', $this->encoders)) {
+            $this->encoders['yml'] = $yamlEncoder;
+        }
     }
 
     /**
@@ -65,9 +72,15 @@ final class EncoderDecoderProviderFactory
         $this->assertFrozen(__METHOD__);
 
         $yamlDecoder = new YamlDecoder();
-        $this->decoders['json'] = new JsonDecoder();
-        $this->decoders['yaml'] = $yamlDecoder;
-        $this->decoders['yml'] = $yamlDecoder;
+        if (!array_key_exists('json', $this->decoders)) {
+            $this->decoders['json'] = new JsonDecoder();
+        }
+        if (!array_key_exists('yaml', $this->decoders)) {
+            $this->decoders['yaml'] = $yamlDecoder;
+        }
+        if (!array_key_exists('yml', $this->decoders)) {
+            $this->decoders['yml'] = $yamlDecoder;
+        }
     }
 
     /**
