@@ -1,7 +1,7 @@
 Decoder aggregate library
 =====================
 
-[![Build Status](https://travis-ci.com/jojo1981/decoder-aggregate.svg?branch=master)](https://travis-ci.com/jojo1981/decoder-aggregate)
+[![Build Status](https://github.com/jojo1981/decoder-aggregate/actions/workflows/build.yml/badge.svg)](https://github.com/jojo1981/decoder-aggregate/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/github/jojo1981/decoder-aggregate/badge.svg)](https://coveralls.io/github/jojo1981/decoder-aggregate)
 [![Latest Stable Version](https://poser.pugx.org/jojo1981/decoder-aggregate/v/stable)](https://packagist.org/packages/jojo1981/decoder-aggregate)
 [![Total Downloads](https://poser.pugx.org/jojo1981/decoder-aggregate/downloads)](https://packagist.org/packages/jojo1981/decoder-aggregate)
