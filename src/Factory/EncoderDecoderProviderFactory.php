@@ -144,7 +144,6 @@ final class EncoderDecoderProviderFactory
      * @param string $calledMethodName
      * @return void
      * @throws EncoderDecoderProviderFactoryException
-     * @noinspection PhpSameParameterValueInspection
      */
     private function assertFrozen(string $calledMethodName): void
     {
