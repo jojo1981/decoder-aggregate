@@ -20,7 +20,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": "^7.4|^8.0",
+    "php": "^7.4|^8.0|^8.1|^8.2|^8.3|^8.4",
     "ext-json": "*",
     "symfony/yaml": "^4.0|^5.2"
   },
