@@ -32,7 +32,7 @@ final class YamlDecoder implements DecoderInterface
 
     /**
      * @param string $encodedString
-     * @param array $options
+     * @param array{flags?: int} $options
      * @return mixed
      * @throws YamlDecodeException
      */

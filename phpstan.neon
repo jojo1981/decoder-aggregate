@@ -1,2 +1,7 @@
 parameters:
   treatPhpDocTypesAsCertain: false
+  reportUnmatchedIgnoredErrors: false
+  ignoreErrors:
+    - message: '#Parameter \#2 \$flags of static method Symfony\\Component\\Yaml\\Yaml::parse\(\) expects#'
+      path: src/Decoder/YamlDecoder.php
+      count: 1
